@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Planning Widget</title>
+  <script src="https://sdk.zohoplatform.com/webapps/sdk.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="calendar"></div>
+  <script>
+    // Initialisez le SDK Zoho
+    ZOHO.embeddedApp.init();
+
+    // Récupérez les événements de Zoho CRM
+    function fetchEvents(callback) {
+      ZOHO.CRM.API.getAllRecords({ module: "Events" })
+        .then(function (response) {
+          if (response && response.data) {
+            var events = response.data.map(function (event) {
+              return {
+                title: event.Subject,
+                start: event.Start_DateTime,
+                end: event.End_DateTime
+              };
+            });
+            callback(events);
+          }
+        })
+        .catch(function (error) {
+          console.error("Erreur lors de la récupération des événements :", error);
+        });
+    }
+
+    // Initialisez le calendrier FullCalendar
+    $(document).ready(function () {
+      $("#calendar").fullCalendar({
+        events: function (start, end, timezone, callback) {
+          fetchEvents(callback);
+        },
+        header: {
+          left: "prev,next today",
+          center: "title",
+          right: "month,agendaWeek,agendaDay"
+        },
+        defaultView: "month",
+        editable: false,
+        eventLimit: true
+      });
+    });
+  </script>
+</body>
+</html>
