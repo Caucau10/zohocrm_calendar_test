@@ -1,14 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hello World Widget</title>
   <style>
-    body {
+    .chevron-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+    
+    .chevron {
+      position: relative;
+      width: 200px;
+      height: 100px;
+    }
+    
+    .chevron:before,
+    .chevron:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background-color: #000;
+    }
+    
+    .chevron:before {
+      left: 0;
+      transform: skewY(45deg);
+      transform-origin: top left;
+    }
+    
+    .chevron:after {
+      right: 0;
+      transform: skewY(-45deg);
+      transform-origin: top right;
+    }
+    
+    .chevron-text {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #fff;
       font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h1>Hello World</h1>
+  <div class="chevron-container">
+    <div class="chevron">
+      <div class="chevron-text">Étape 1</div>
+    </div>
+  </div>
 </body>
 </html>
